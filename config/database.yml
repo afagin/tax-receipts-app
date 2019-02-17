@@ -1,0 +1,13 @@
+production:
+  adapter: postgresql
+  url: <%= ENV['DATABASE_URL'] %>
+
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+
+test:
+  adapter: sqlite3
+  database: db/test.sqlite3
+  pool: 8

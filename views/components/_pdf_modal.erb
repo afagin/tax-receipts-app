@@ -1,0 +1,51 @@
+<div class="modal fade" id="editPdfModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Donation Receipt Pdf</h4>
+      </div>
+
+      <div class="modal-body">
+        <label>Preview Options</label>
+        <select class="form-control" style="width: 97%" value="default" bind="previewOptions">
+          <option value="default">Default</option>
+          <option value="resent">Resent</option>
+          <option value="update">Update</option>
+          <option value="void">Void</option>
+        </select>
+
+        <label style="padding-top: 10px;">Pdf Template</label>
+        <textarea
+          bind="pdfTemplate"
+          class="form-control"
+          style="width: 97%"
+          rows="18"><%= charity.pdf_template %></textarea>
+      </div>
+
+      <div class="modal-footer">
+        <div class="pull-left">
+          <form method="POST" action="/preview_pdf" target="_blank" role="form">
+            <input type="hidden" name="template" value="<%= charity.pdf_template %>" bind="pdfTemplate" />
+            <input type="hidden" name="status" value="default" bind="previewOptions" />
+            <button type="submit" class="btn btn-default">Preview</button>
+          </form>
+        </div>
+
+        <form method="POST" action="/charity" role="form">
+          <input type="hidden" name="_method" value="put" />
+          <input type="hidden" name="pdf_template" value="<%= charity.pdf_template %>" bind="pdfTemplate" />
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p>
+  <a href="#" class="btn btn-default action-btn" onclick="$('#editPdfModal').modal('toggle'); return false;">
+    <i class="fa fa-edit"></i> Edit receipt pdf
+  </a>
+</p>

@@ -1,0 +1,19 @@
+language: ruby
+
+rvm:
+- "2.5.3"
+
+env:
+  - DEVELOPMENT=1
+
+gemfile:
+  - Gemfile
+
+script:
+  - bundle exec rake db:schema:load
+  - bundle exec rake test
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never

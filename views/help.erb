@@ -1,0 +1,81 @@
+<script>
+ShopifyApp.ready(function(){
+  ShopifyApp.Bar.setTitle('Help')
+});
+</script>
+
+<h3>How it Works</h3>
+<p>
+  We watch for order updates on your shop. When a new order is paid we check if it contains products which you've set to receive a tax receipt.
+  We calculate the total donation for the order (and ensure it is above your threshold if you have one) then we send a second email to your customer (in addition to their order receipt from Shopify)
+  with the receipt PDF attached. Both the email and the pdf are customizable in the App using Liquid.
+</p>
+<p>
+  We also watch for order updates and refunds. If an order is updated or partially refunded in a way that causes the receipt to change we void the old donation and send an updated copy
+  of the PDF to the customer. If an order is fully refunded the donation receipt is void and the customer is notified along with a copy of the void receipt.
+</p>
+<p>
+  From the App you can view, resend and manually void any donation receipt previously sent. You can also export all donations for a given date range.
+</p>
+<p>
+  In all cases please remember the customer still has the original document and could still miss represent when filing their taxes but you'll have a record in case of an audit.
+</p>
+
+<hr>
+
+<h3>Adding Products</h3>
+<p>
+  To select which products should recieve tax receipts on purchase add products using the 'Add a product' button on the
+  <a href="/">home page</a>
+   or go to your
+  <a href=<%="https://#{@shop.myshopify_domain}/admin/products"%> target="_blank">products</a>
+  page and use the bulk dropdown
+</p>
+<img src='<%="#{base_url}/add_products.gif"%>' alt="Add Products using the bulk app link">
+<p>A product can also be added from the product edit page by using the app link in the top right corner</p>
+<img src='<%="#{base_url}/add_product.png"%>' alt="Add Product using the app link">
+
+<hr>
+
+<h3>Editing Templates</h3>
+<p>You can edit the templates for the emails and receipt pdf that get sent out. The templates are written in liquid just like your Shopify theme and other shop emails. HTML is supported in email templates. If an html close tag is detected in the template the email will be sent with an html body instead of a plain text body. Please test HTML email templates carefully!</p>
+<p>The following objects are available in the templates:</p>
+
+<strong>shop</strong>
+<p>
+  <a href="https://help.shopify.com/api/reference/shop">shop fields</a>
+</p>
+
+<strong>charity</strong>
+<pre>
+name
+charity_id
+donation_id_prefix
+</pre>
+
+<strong>donation</strong>
+<pre>
+id
+order_number
+status (blank | resent | update | void)
+email
+first_name
+last_name
+address1
+city
+country
+zip
+received_at
+created_at
+donation_amount
+original_donation (only present if status == 'update')
+</pre>
+
+<strong>order</strong>
+<p>
+  <a href="https://help.shopify.com/api/reference/order">order fields</a>
+</p>
+
+<p>Object fields can be accessed via dot syntax `charity.name` or hash syntax `charity['name']`. Remember to always check your templates with preview and test email buttons after editing.</p>
+
+<hr>
